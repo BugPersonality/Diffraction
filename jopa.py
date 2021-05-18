@@ -26,7 +26,7 @@ def waveFunction(px):
 def waveFunctionAbsPow(px):
     return math.pow(abs(waveFunction(px)), 2)
 
-arrK = [i for i in range(1, 10)]
+arrK = [i for i in range(1, 11)]
 
 arrPxk = []
 arrPhiK = []
@@ -39,7 +39,7 @@ for k in arrK:
     arrPxk.append(pxk)
     arrPhiK.append(phixK)
 
-dist = np.array(getDistribution(arrPxk, 10000))
+dist = np.array(getDistribution(arrPxk, 5000))
 x = list(dist)
 x.sort()
 dict = {}
@@ -52,11 +52,11 @@ for x_ in x:
 
 arrCountPxForK = []
 
-for key in range(1, 10):
-    if dict[dictKToPx[key]] is not None:
+for key in range(1, 11):
+    if dict.get(dictKToPx[key]) is not None:
         arrCountPxForK.append(dict[dictKToPx[key]]/dict[dictKToPx[1]])
     else:
-        raise Exception('Srat')
+        arrCountPxForK.append(0)
 
 plt.bar(arrK, arrCountPxForK)
 plt.show()
@@ -65,12 +65,12 @@ plt.show()
 # plt.scatter(x, y)
 # plt.show()
 
-arrWaveFunc = []
-arrYForWaveFunc = []
+# arrWaveFunc = []
+# arrYForWaveFunc = []
 
-for px in dist:
-    arrWaveFunc.append(waveFunctionAbsPow(px))
-    arrYForWaveFunc.append((px * deltaX) / (2 * constPlank))
+# for px in dist:
+#     arrWaveFunc.append(waveFunctionAbsPow(px))
+#     arrYForWaveFunc.append((px * deltaX) / (2 * constPlank))
 
 # plt.scatter(arrWaveFunc, arrYForWaveFunc)
 # plt.show()
