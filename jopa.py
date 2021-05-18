@@ -2,6 +2,7 @@ import numpy as np
 from scipy.stats import norm
 import matplotlib.pyplot as plt
 import math
+from main import * 
 
 constPlank = 1.054 * 10 ** (-34)    # Дж / c
 deltaX = 5.5 * 10 ** (-10)          # м 
@@ -31,3 +32,5 @@ for k in arrK:
 
 print(f"Имульсы сука = \n {arrPxk} \n")
 print(f"Углы сука = \n {arrPhiK} \n")
+
+print(getDistribution(arrPxk, 10))
