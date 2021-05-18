@@ -25,30 +25,43 @@ def waveFunction(px):
 def waveFunctionAbsPow(px):
     return math.pow(abs(waveFunction(px)), 2)
 
-arrK = [i for i in range(-21, 21)]
+arrK = [i for i in range(1, 10)]
 
 arrPxk = []
 arrPhiK = []
+dictKToPx = {}
 
 for k in arrK:
     pxk = getPx(k)
+    dictKToPx[k] = pxk
     phixK = getPhiX(pxk, getP())
     arrPxk.append(pxk)
     arrPhiK.append(phixK)
 
-print(f"Имульсы сука = \n {arrPxk} \n")
-print(f"Углы сука = \n {arrPhiK} \n")
+# print(f"Имульсы сука = \n {arrPxk} \n")
+# print(f"Углы сука = \n {arrPhiK} \n")
 
-dist = np.array(getDistribution(arrPxk, 1000))
+dist = np.array(getDistribution(arrPxk, 10000))
 
-# x = list(set(dist))
-# x.sort()
-# dict = {}
-# for x_ in x:
-#     if dict.get(x_) is not None:
-#         dict[x_] += 1
-#     else:
-#         dict[x_] = 1
+x = list(dist)
+x.sort()
+dict = {}
+for x_ in x:
+    if dict.get(x_) is not None:
+        dict[x_] += 1
+    else:
+        dict[x_] = 1
+
+arrCountPxForK = []
+
+for key in range(1, 10):
+    if dict[dictKToPx[key]] is not None:
+        arrCountPxForK.append(dict[dictKToPx[key]])
+    else:
+        raise Exception('Srat')
+
+plt.bar(arrK, arrCountPxForK)
+plt.show()
 
 # y = [dict[x_] for x_ in x]
 
@@ -65,5 +78,8 @@ for px in dist:
     arrWaveFunc.append(waveFunctionAbsPow(px))
     arrYForWaveFunc.append((px * deltaX) / (2 * constPlank))
 
-plt.scatter(arrWaveFunc, arrYForWaveFunc)
-plt.show()
+# plt.scatter(arrWaveFunc, arrYForWaveFunc)
+# plt.show()
+
+# plt.hist(arrWaveFunc, density=True, bins=30) 
+# plt.show()
