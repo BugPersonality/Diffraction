@@ -20,8 +20,10 @@ def getDistribution(listP, amount):
     for p in listP:
         probabilityP.append(phi(p))
     sum_ = sum(probabilityP)
-    for p in probabilityP:
-        p /= sum_
+    # for p in probabilityP:
+    #     p /= sum_
+    for p in range(len(probabilityP)):
+        probabilityP[p] /= sum_
     start = 0
     probabilitySection = []
     for p, val in zip(probabilityP, listP):
