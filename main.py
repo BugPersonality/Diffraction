@@ -31,7 +31,7 @@ def getDistribution(listP, amount):
         probabilitySection.append(section)
 
     distribution = []
-    for _ in range(n):
+    for _ in range(amount):
         randVal = random.uniform(0, 1)
         for section in probabilitySection:
             if  section.start <= randVal <= section.end:
