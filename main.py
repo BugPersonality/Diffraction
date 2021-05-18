@@ -1,27 +1,34 @@
-import random
 import numpy as np 
 from scipy.stats import norm
 import matplotlib.pyplot as plt
+import math
 
-def draw_random_number_from_pdf(pdf, interval, pdfmax = 1, max_iterations = 100):
-        for i in range(max_iterations):
-            rand_x = (interval[1] - interval[0]) * np.random.random(1) + interval[0] 
+constPlank = 1.054 * 10 ** (-34)    # Дж / c
+deltaX = 5.5 * 10 ** (-10)          # м 
+deltaPhi = 50                       # В 
+massE = 9.1093837015 * 10 ** (-31)  # кг
+e = 1.60217662 * 10 ** (-19)        # Кл
 
-            rand_y = pdfmax * np.random.random(1) 
-            calc_y = pdf(rand_x)
+def getPx(k):
+    return ((2 * k - 1) * math.pi * 2 * constPlank) / (12 * deltaX)
 
-            if(rand_y <= calc_y ):
-                return rand_x
+def getPhiX(px, p):
+    return np.arcsin(px / p)
 
-arr = []
-x_axis = np.arange(0, 1, 0.1)
+def getP():
+    return math.sqrt(e * deltaPhi * massE * 2)
 
-for i in range(10):
-    arr.append(draw_random_number_from_pdf(norm.pdf, [0, 1])[0])
+arrK = [i for i in range(1, 11)]
 
-plt.plot(x_axis, arr)
-plt.show()
+arrPxk = []
+arrPhiK = []
 
-print(arr)
+for k in arrK:
+    pxk = getPx(k)
+    phixK = getPhiX(pxk, getP())
+    arrPxk.append(pxk)
+    arrPhiK.append(phixK)
 
+print(f"Имульсы сука = \n {arrPxk} \n")
+print(f"Углы сука = \n {arrPhiK} \n")
 
