@@ -1,3 +1,9 @@
+import numpy as np 
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+import math
+import random
+
 def getDistribution(listP, amount):
     class Section:
         start = 0
@@ -9,7 +15,7 @@ def getDistribution(listP, amount):
 
     dx = 0.55 * 10 ** (-34)
     h = 1.054 * 10 ** (-34)
-    phi = lambda p: sqrt(dx / (2 * math.pi * h) * ((sin(p * dx/ (2 * h)) )) / ((p * dx) / (2 * h) ))
+    phi = lambda p: math.sqrt(dx / (2 * math.pi * h) * ((sin(p * dx/ (2 * h)) )) / ((p * dx) / (2 * h) ))
     probabilityP = []
     for p in listP:
         probabilityP.append(phi(p))
@@ -33,3 +39,4 @@ def getDistribution(listP, amount):
                 break
     return distribution
 
+print(getDistribution([1, 2 ,3 ,4], 100))
