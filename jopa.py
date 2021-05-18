@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.stats import norm
+import scipy.stats as st
 import matplotlib.pyplot as plt
 import math
 from main import * 
@@ -38,14 +39,11 @@ for k in arrK:
     arrPxk.append(pxk)
     arrPhiK.append(phixK)
 
-# print(f"Имульсы сука = \n {arrPxk} \n")
-# print(f"Углы сука = \n {arrPhiK} \n")
-
 dist = np.array(getDistribution(arrPxk, 10000))
-
 x = list(dist)
 x.sort()
 dict = {}
+
 for x_ in x:
     if dict.get(x_) is not None:
         dict[x_] += 1
@@ -56,7 +54,7 @@ arrCountPxForK = []
 
 for key in range(1, 10):
     if dict[dictKToPx[key]] is not None:
-        arrCountPxForK.append(dict[dictKToPx[key]])
+        arrCountPxForK.append(dict[dictKToPx[key]]/dict[dictKToPx[1]])
     else:
         raise Exception('Srat')
 
@@ -64,10 +62,6 @@ plt.bar(arrK, arrCountPxForK)
 plt.show()
 
 # y = [dict[x_] for x_ in x]
-
-# print(x)
-# print(y)
-
 # plt.scatter(x, y)
 # plt.show()
 
@@ -81,5 +75,16 @@ for px in dist:
 # plt.scatter(arrWaveFunc, arrYForWaveFunc)
 # plt.show()
 
-# plt.hist(arrWaveFunc, density=True, bins=30) 
+# dx = 0.55 * 10 ** (-34)
+# h = 1.054 * 10 ** (-34)
+# phi = lambda p: pow(abs(math.sqrt(dx / (2 * math.pi * h) * ((math.sin(p * dx/ (2 * h)) )) / ((p * dx) / (2 * h) ))), 2)
+# x = []
+# y = []
+
+# for i in range(1, 5):
+#     x.append(phi(i))
+#     y.append(i)
+
+# plt.plot(x, y)
 # plt.show()
+
