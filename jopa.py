@@ -1,4 +1,4 @@
-import numpy as np 
+import numpy as np
 from scipy.stats import norm
 import matplotlib.pyplot as plt
 import math
@@ -33,4 +33,7 @@ for k in arrK:
 print(f"Имульсы сука = \n {arrPxk} \n")
 print(f"Углы сука = \n {arrPhiK} \n")
 
-print(getDistribution(arrPxk, 10))
+dist = getDistribution(arrPxk, 100)
+val = 0. # this is the value where you want the data to appear on the y-axis.
+plt.plot(dist, len(dist) * [1], "x")
+plt.savefig('plot.png', bbox_inches='tight')
