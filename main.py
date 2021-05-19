@@ -10,6 +10,7 @@ deltaX = 5.5 * (10 ** (-10))            # м
 deltaPhi = 50                           # В 
 massE = 9.1093837015 * (10 ** (-31))    # кг
 e = 1.60217662 * (10 ** (-19))          # Кл
+COUNT1 = 15
 
 def getPx(k):
     return ((2 * k - 1) * math.pi * 2 * constPlank) / (12 * deltaX)
@@ -68,7 +69,7 @@ def getDistribution(listP, amount):
    
     return distribution
 
-arrK = [i for i in range(1, 11)]
+arrK = [i for i in range(1, COUNT1)]
 
 arrPxk = []
 arrPhiK = []
@@ -83,7 +84,7 @@ for k in arrK:
     arrPxk.append(pxk)
     arrPhiK.append(phixK)
 
-dist = np.array(getDistribution(arrPxk, 100))
+dist = np.array(getDistribution(arrPxk, 10000))
 x = list(dist)
 x.sort()
 dict = {}
@@ -96,7 +97,7 @@ for x_ in x:
 
 arrCountPxForK = []
 
-for key in range(1, 11):
+for key in range(1, COUNT1):
     if dict.get(dictKToPx[key]) is not None:
         arrCountPxForK.append(dict[dictKToPx[key]]/dict[dictKToPx[1]])
     else:
@@ -105,7 +106,7 @@ for key in range(1, 11):
 arrForMainCpp = []
 
 for px in x:
-    for key in range(1, 11):
+    for key in range(1, COUNT1):
         if px == dictKToPx[key]:
             arrForMainCpp.append(key)
             break
@@ -118,20 +119,20 @@ for i in arrForMainCpp:
     f.write(str(i) + " \n")
 f.close()
 
-# barlist = plt.bar(arrK, arrCountPxForK)
-# firstMin = 1
+barlist = plt.bar(arrK, arrCountPxForK)
+firstMin = 1
 
-# for i in range(1, len(arrCountPxForK) - 1):
-#     if (arrCountPxForK[i] < arrCountPxForK[i - 1]) and (arrCountPxForK[i] <= arrCountPxForK[i + 1]):
-#         barlist[i].set_color('r')
-#         firstMin = (i, arrCountPxForK[i])
-#         break
-#     elif (arrCountPxForK[i] < arrCountPxForK[i - 1]) and (arrCountPxForK[i] < arrCountPxForK[i + 1]):
-#         barlist[i].set_color('r')
-#         firstMin = (i, arrCountPxForK[i])
-#         break
+for i in range(1, len(arrCountPxForK) - 1):
+    if (arrCountPxForK[i] < arrCountPxForK[i - 1]) and (arrCountPxForK[i] <= arrCountPxForK[i + 1]):
+        barlist[i].set_color('r')
+        firstMin = (i, arrCountPxForK[i])
+        break
+    elif (arrCountPxForK[i] < arrCountPxForK[i - 1]) and (arrCountPxForK[i] < arrCountPxForK[i + 1]):
+        barlist[i].set_color('r')
+        firstMin = (i, arrCountPxForK[i])
+        break
 
-# plt.show()
+plt.show()
 
 # deBroglieWavelengthByPulse = getDeBroglieWavelength(firstMin[1], "pulse")
 # deBroglieWavelengthByAngle = getDeBroglieWavelength(dictKToPhi[firstMin[0]], "angle")
