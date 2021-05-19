@@ -3,7 +3,7 @@ from scipy.stats import norm
 import scipy.stats as st
 import matplotlib.pyplot as plt
 import math
-from main import * 
+import random 
 
 constPlank = 1.054 * (10 ** (-34))      # Дж / c
 deltaX = 5.5 * (10 ** (-10))            # м 
@@ -26,16 +26,62 @@ def waveFunction(px):
 def waveFunctionAbsPow(px):
     return math.pow(abs(waveFunction(px)), 2)
 
+def getDeBroglieWavelength(p, mode):
+    if mode == "angle":
+        return deltaX * math.sin(p)
+    elif mode == "pulse":
+        return (2 * constPlank) / p
+
+def getDistribution(listP, amount):
+    class Section:
+        start = 0
+        end = 0
+        value = 0
+        def __init__(self, start, end):
+            self.start = start
+            self.end = end
+
+    dx = 0.55 * 10 ** (-34)
+    h = 1.054 * 10 ** (-34)
+    phi = waveFunctionAbsPow #lambda p: pow(abs(math.sqrt(dx / (2 * math.pi * h) * ((math.sin(p * dx/ (2 * h)) )) / ((p * dx) / (2 * h) ))), 2)
+    probabilityP = []
+    for p in listP:
+        probabilityP.append(phi(p))
+    sum_ = sum(probabilityP)
+    # for p in probabilityP:
+    #     p /= sum_
+    for p in range(len(probabilityP)):
+        probabilityP[p] /= sum_
+    start = 0
+    probabilitySection = []
+    for p, val in zip(probabilityP, listP):
+        section = Section(start, start + p)
+        section.value = val
+        start += p
+        probabilitySection.append(section)
+
+    distribution = []
+    for _ in range(amount):
+        randVal = random.uniform(0, 1)
+        for section in probabilitySection:
+            if  section.start <= randVal <= section.end:
+                distribution.append(section.value)
+                break
+   
+    return distribution
+
 arrK = [i for i in range(1, 11)]
 
 arrPxk = []
 arrPhiK = []
 dictKToPx = {}
+dictKToPhi = {}
 
 for k in arrK:
     pxk = getPx(k)
     dictKToPx[k] = pxk
     phixK = getPhiX(pxk, getP())
+    dictKToPhi[k] = phixK
     arrPxk.append(pxk)
     arrPhiK.append(phixK)
 
@@ -58,8 +104,31 @@ for key in range(1, 11):
     else:
         arrCountPxForK.append(0)
 
-plt.bar(arrK, arrCountPxForK)
+barlist = plt.bar(arrK, arrCountPxForK)
+firstMin = 1
+
+for i in range(1, len(arrCountPxForK) - 1):
+    if (arrCountPxForK[i] < arrCountPxForK[i - 1]) and (arrCountPxForK[i] <= arrCountPxForK[i + 1]):
+        barlist[i].set_color('r')
+        firstMin = (i, arrCountPxForK[i])
+        break
+    elif (arrCountPxForK[i] < arrCountPxForK[i - 1]) and (arrCountPxForK[i] < arrCountPxForK[i + 1]):
+        barlist[i].set_color('r')
+        firstMin = (i, arrCountPxForK[i])
+        break
+
+print(dictKToPhi[firstMin[0]], firstMin, math.sin(dictKToPhi[firstMin[0]]))
+
+deBroglieWavelengthByPulse = getDeBroglieWavelength(firstMin[1], "pulse")
+deBroglieWavelengthByAngle = getDeBroglieWavelength(dictKToPhi[firstMin[0]], "angle")
+
+print(f"De Broglie wavelength by angle and pulse: {deBroglieWavelengthByAngle} ?= {deBroglieWavelengthByPulse}")
+
 plt.show()
+
+
+
+
 
 # y = [dict[x_] for x_ in x]
 # plt.scatter(x, y)
