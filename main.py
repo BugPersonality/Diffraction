@@ -11,6 +11,7 @@ deltaPhi = 50                           # В
 massE = 9.1093837015 * (10 ** (-31))    # кг
 e = 1.60217662 * (10 ** (-19))          # Кл
 COUNT1 = 15
+COUNT2 = -15
 
 def getPx(k):
     return ((2 * k - 1) * math.pi * 2 * constPlank) / (12 * deltaX)
@@ -69,7 +70,7 @@ def getDistribution(listP, amount):
    
     return distribution
 
-arrK = [i for i in range(1, COUNT1)]
+arrK = [i for i in range(COUNT2, COUNT1)]
 
 arrPxk = []
 arrPhiK = []
@@ -97,7 +98,7 @@ for x_ in x:
 
 arrCountPxForK = []
 
-for key in range(1, COUNT1):
+for key in range(COUNT2, COUNT1):
     if dict.get(dictKToPx[key]) is not None:
         arrCountPxForK.append(dict[dictKToPx[key]]/dict[dictKToPx[1]])
     else:
@@ -106,7 +107,7 @@ for key in range(1, COUNT1):
 arrForMainCpp = []
 
 for px in x:
-    for key in range(1, COUNT1):
+    for key in range(COUNT2, COUNT1):
         if px == dictKToPx[key]:
             arrForMainCpp.append(key)
             break

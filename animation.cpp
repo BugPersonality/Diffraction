@@ -45,7 +45,7 @@ public:
         for (int i = 0, offset = 0; i < count; i++) {
             RectangleShape rect;
 
-            rect.setSize(Vector2f(70, 350.0/count - 4));
+            rect.setSize(Vector2f(70, 700.0/count - 4));
             rect.setPosition(600, 60 + offset);
             rect.setFillColor(Color::Black);
             rect.setOutlineThickness(1);
@@ -54,12 +54,12 @@ public:
             Text text;
             text.setFont(font);
             text.setString(to_string(count - i));
-            text.setPosition(675, 60 + offset + (350.0/count - 4)/2.0 - 15);
+            text.setPosition(675, 60 + offset + (700.0/count - 4)/2.0 - 15);
             text.setCharacterSize(15);
             text.setStyle(Text::Bold);
             text.setColor(Color::Black);
             
-            offset += 350.0/count;
+            offset += 700.0/count;
 
             pair<RectangleShape, pair<Text, int>> toAdd;
 
@@ -77,9 +77,9 @@ public:
         recive[index].second.second++;
         max_count = max(max_count, recive[index].second.second);
 
-        recive[index].first.setFillColor(Color(rand()%255, rand()%255, rand()%255));
+        //recive[index].first.setFillColor(Color(rand()%255, rand()%255, rand()%255));
 
-        //recive[index].first.setFillColor(Color(recive[index].second.second/(float)max_count * 255.0, 0, 0, 255));
+        recive[index].first.setFillColor(Color(recive[index].second.second/(float)max_count * 255.0, 0, 0, 255));
     }
 
     Vector2f getPos(int index) {
@@ -195,6 +195,12 @@ int main() {
     for (int i = 0; i < count; ++i) {
         int key;
         infile >> key;
+        
+        key += 15;
+
+        if (key == 0)
+            key = 15;
+
         keys.push_back(key);
     }
 
